@@ -1,0 +1,36 @@
+/* =====================================================================
+   print.css — Fișa de lucru pe hârtie A4 (și aspectul ei pe ecran)
+   ===================================================================== */
+.foaie-a4 {
+  background: #fff; color: #111; max-width: 210mm; margin: 0 auto; padding: 16mm 15mm; box-shadow: var(--umbra);
+  border: 1px solid var(--linie); font-size: 11.5pt; line-height: 1.45;
+}
+.foaie-a4 h1 { font-size: 17pt; margin: 10px 0 4px; color: #111; }
+.foaie-a4 h2 { font-size: 13pt; margin: 16px 0 8px; color: #111; }
+.foaie-a4 .tabel th, .foaie-a4 .tabel td { border-color: #999; padding: 3px 6px; font-size: 9.5pt; color: #111; background: #fff; }
+.foaie-a4 .tabel th { background: #eee; }
+.foaie-a4 .tabel td.num { text-align: right; }
+.foaie-a4 .eticheta { color: #555; }
+.foaie-a4 .f { background: #f2f2f2; border-color: #bbb; color: #111; }
+.antet-fisa { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; border-bottom: 2px solid #111; padding-bottom: 8px; font-size: 10pt; }
+.antet-fisa .campuri { display: flex; flex-direction: column; gap: 10px; min-width: 60%; }
+.linie-scris { display: inline-block; min-width: 28mm; border-bottom: 1px dotted #333; height: 1em; vertical-align: bottom; }
+.linie-scris.lung { min-width: min(70mm, 55vw); }
+@media screen and (max-width: 600px) { .foaie-a4 { padding: 16px; } .antet-fisa .campuri { min-width: 0; } }
+.subtitlu-fisa { color: #444; font-size: 10pt; margin-bottom: 10px; }
+.cerinte-fisa { padding-left: 22px; }
+.cerinte-fisa li { margin-bottom: 10px; break-inside: avoid; }
+.nivel-fisa { display: inline-block; font-size: 8.5pt; text-transform: uppercase; letter-spacing: .04em; border: 1px solid #777; border-radius: 3px; padding: 0 5px; margin-bottom: 2px; color: #333; }
+.total-fisa { font-weight: 700; text-align: right; border-top: 1px solid #111; padding-top: 6px; }
+.foaie-a4 .pix-rosu { color: #111; background: #fff5f4; border-color: #c8342b; }
+.bara-print { max-width: 210mm; margin: 0 auto 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+@page { size: A4; margin: 12mm; }
+@media print {
+  body { background: #fff !important; background-image: none !important; color: #000; }
+  .bara-sus, .subsol, .bara-print, .toast-zona, .nu-printa { display: none !important; }
+  .pagina { padding: 0 !important; max-width: none !important; }
+  .foaie-a4 { box-shadow: none; border: 0; padding: 0; max-width: none; }
+  .foaie-a4 .pix-rosu { background: #fff !important; }
+  a { color: #000; text-decoration: none; }
+}

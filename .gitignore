@@ -1,0 +1,5 @@
+# fișiere de lucru care nu se publică
+prompt.md
+node_modules/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trucuri de concurs · Excel clasa a X-a</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='18' r='11' fill='none' stroke='%23f0b429' stroke-width='3'/%3E%3Cpath d='M16 18V11M13 4h6' stroke='%23f0b429' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/olimpiada.css">
+</head>
+<body class="olimpiada">
+  <main class="pagina ingust" id="continut">
+    <a href="index.html" class="btn btn-mic btn-fantoma">← Antrenament</a>
+    <div style="margin-top:14px">
+      <span class="ol-eticheta">Trucuri și capcane</span>
+      <h1 style="margin:6px 0 10px">Punctele se câștigă la detalii.</h1>
+      <p style="color:var(--cerneala-2);font-size:1.1rem;max-width:62ch">Cum îți organizezi timpul la proba de Excel, scurtăturile care te scapă de clicuri inutile și greșelile care costă cele mai multe puncte.</p>
+    </div>
+
+    <section class="tr-sectiune">
+      <h2>Primele 5 minute</h2>
+      <div class="card">
+        <ol style="margin:0;padding-left:20px">
+          <li><b>Citește tot subiectul</b> înainte de prima formulă. Notează ce foi, ce coloane și ce nume de fișier se cer.</li>
+          <li><b>Salvează imediat</b> fișierul cu numele și în formatul cerute (de obicei <code>.xlsx</code>), apoi salvează des cu [[k:Ctrl+S]].</li>
+          <li><b>Fă o copie de siguranță</b> a foii inițiale (Ctrl + tragere de etichetă) dacă urmează sortări sau ștergeri.</li>
+          <li><b>Rezolvă întâi cerințele sigure</b> și rapide. Revino apoi la cele grele: punctajul se dă pe cerințe.</li>
+          <li><b>Verifică datele</b>: spații în plus, numere scrise ca text (aliniate la stânga), date recunoscute greșit.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="tr-sectiune">
+      <h2>Scurtături care economisesc timp</h2>
+      <div class="card tabel-scroll" style="padding:0">
+        <table class="tabel" style="margin:0">
+          <tr><th>Taste</th><th>Ce fac</th></tr>
+          <tr><td>[[k:F4]]</td><td>schimbă referința A1 → $A$1 → A$1 → $A1, în timpul editării</td></tr>
+          <tr><td>[[k:F2]]</td><td>editează celula; săgețile mută cursorul în formulă, nu în foaie</td></tr>
+          <tr><td>[[k:Ctrl]] + tasta de sub [[k:Esc]]</td><td>arată / ascunde toate formulele (verificare rapidă)</td></tr>
+          <tr><td>[[k:Ctrl+Shift+L]]</td><td>activează / dezactivează filtrul automat</td></tr>
+          <tr><td>[[k:Ctrl]] + săgeată, [[k:Ctrl+Shift]] + săgeată</td><td>sari la capătul datelor / selectezi până la capăt</td></tr>
+          <tr><td>dublu-clic pe ghidajul de umplere</td><td>copiază formula până la ultimul rând cu date</td></tr>
+          <tr><td>[[k:Ctrl+D]] / [[k:Ctrl+R]]</td><td>umple în jos / spre dreapta</td></tr>
+          <tr><td>[[k:Alt+=]]</td><td>însumare automată</td></tr>
+          <tr><td>[[k:Ctrl+1]]</td><td>fereastra Formatare celule</td></tr>
+          <tr><td>[[k:Ctrl+Alt+V]]</td><td>lipire specială (doar valori, transpunere)</td></tr>
+          <tr><td>[[k:Ctrl+Z]] / [[k:Ctrl+Y]]</td><td>anulează / refă</td></tr>
+          <tr><td>[[k:Shift+F11]]</td><td>foaie nouă</td></tr>
+          <tr><td>[[k:F9]] (în bara de formule, pe o bucată selectată)</td><td>arată valoarea acelei bucăți din formulă. Apasă [[k:Esc]] după, ca să nu rămână înlocuită!</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="tr-sectiune">
+      <h2>Trucuri de verificare</h2>
+      <div class="tr-grila">
+        <div class="card"><h3>Evaluare formulă</h3><p>Fila <i>Formule → Evaluare formulă</i> parcurge formula pas cu pas și arată ce valoare dă fiecare parte. Este ideală pentru IF-uri imbricate.</p></div>
+        <div class="card"><h3>Verifică pe un caz ales</h3><p>Schimbă temporar o valoare din date (de exemplu o notă exact 5) și urmărește dacă rezultatul se schimbă cum trebuie. Apoi [[k:Ctrl+Z]].</p></div>
+        <div class="card"><h3>Bara de stare</h3><p>Selectezi zona și citești jos Suma, Media și Numărul. Așa verifici rapid un SUMIF sau un COUNTIF.</p></div>
+        <div class="card"><h3>Copiază, apoi controlează ultimul rând</h3><p>După copierea unei formule, verifică formula de pe <b>ultimul</b> rând: acolo se văd imediat referințele care trebuiau blocate cu $.</p></div>
+        <div class="card"><h3>IFERROR la final, nu la început</h3><p>Pune IFERROR doar după ce formula funcționează. Altfel ascunzi greșelile propriei formule.</p></div>
+        <div class="card"><h3>Criterii din celule</h3><p>Scrie pragurile și valorile într-o celulă și folosește <code>"&gt;="&amp;H1</code>. Dacă cerința se schimbă, modifici o singură celulă.</p></div>
+      </div>
+    </section>
+
+    <section class="tr-sectiune">
+      <h2>Greșeli care costă puncte</h2>
+      <div class="tr-grila">
+        <div class="card tr-greseala"><h3>Rezultate scrise de mână</h3><p>Valoarea e corectă, dar în celulă nu e formulă. Evaluarea verifică formula din bara de formule, iar un număr scris direct primește de obicei 0 puncte.</p></div>
+        <div class="card tr-greseala"><h3>$ lipsă la copiere</h3><p>Prima celulă e corectă, restul nu. Zonele de căutare, pragurile și parametrii (cota TVA, data curentă) se blochează: <code>$H$2:$I$5</code>.</p></div>
+        <div class="card tr-greseala"><h3>Formatare în loc de rotunjire</h3><p>„Rotunjit la 2 zecimale” înseamnă [[fn:ROUND]], nu formatul cu 2 zecimale. Formatul schimbă doar ce se vede.</p></div>
+        <div class="card tr-greseala"><h3>VLOOKUP fără FALSE</h3><p>Fără al patrulea argument, căutarea este aproximativă și, pe date nesortate, dă rezultate greșite fără nicio eroare.</p></div>
+        <div class="card tr-greseala"><h3>Sortarea unei singure coloane</h3><p>Datele se amestecă între rânduri. Selectează o singură celulă din tabel sau tot tabelul, niciodată doar o coloană.</p></div>
+        <div class="card tr-greseala"><h3>Criterii fără ghilimele</h3><p><code>=COUNTIF(B2:B30,&gt;=8)</code> nu funcționează. Corect este <code>"&gt;=8"</code>. La fel, textele din IF se scriu între ghilimele drepte.</p></div>
+        <div class="card tr-greseala"><h3>Diagrame incomplete</h3><p>Cerința spune titlu, titluri de axe, legendă jos, etichete? Fiecare element are punctajul lui. Verifică și zona de date: fără antet și fără rândul de total.</p></div>
+        <div class="card tr-greseala"><h3>$ greșit în formatarea condiționată</h3><p>Pentru rânduri întregi scrii <code>=$C2&gt;=9</code>. Cu <code>=$C$2</code> se colorează tot sau nimic, iar cu <code>=C2</code> se colorează doar o coloană.</p></div>
+        <div class="card tr-greseala"><h3>Nume greșite de foi și fișiere</h3><p>„Statistici” nu este „Statistica”. Numele cerute se scriu exact, inclusiv diacriticele, iar fișierul se salvează în formatul cerut.</p></div>
+        <div class="card tr-greseala"><h3>Date calendaristice ca text</h3><p>O dată aliniată la stânga este text, iar calculele cu ea dau #VALUE!. Verifică formatul și, dacă e nevoie, transform-o cu [[fn:DATE]] sau [[fn:VALUE]].</p></div>
+        <div class="card tr-greseala"><h3>Pivot neactualizat</h3><p>După ce modifici datele sursă, reîmprospătează tabelul pivot. Altfel rămâne cu valorile vechi.</p></div>
+        <div class="card tr-greseala"><h3>Protecție pusă prea devreme</h3><p>Protejează foaia la final. Pe o foaie protejată nu mai poți sorta, formata sau corecta și pierzi timp.</p></div>
+      </div>
+    </section>
+
+    <div class="ol-avertisment"><b>De reținut:</b><span>Sfaturile de pe această pagină sunt recomandări de antrenament. Regulile exacte ale concursului (formatul fișierelor, modul de predare, baremul) sunt cele din regulamentul și subiectul oficial al fiecărei ediții.</span></div>
+  </main>
+  <script src="../config.js"></script>
+  <script src="../data/functii.js"></script>
+  <script src="../assets/js/formula-engine.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/progress.js"></script>
+  <script>
+    App.init({ activ: 'olimpiada', casetaNume: 'Trucuri' });
+    App.htmlCuMarcaje(document.getElementById('continut'), document.getElementById('continut').innerHTML);
+  </script>
+</body>
+</html>

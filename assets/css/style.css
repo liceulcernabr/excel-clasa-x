@@ -1,0 +1,656 @@
+/* =====================================================================
+   style.css — Aspectul site-ului
+   Idee vizuală: „caietul cu pătrățele” + cerneala albastră a elevului.
+   Pixul ROȘU aparține profesorului (barem, soluții — modul profesor).
+   Cursorul de celulă din Excel (chenar + pătrățelul de umplere) este
+   semnul distinctiv al site-ului.
+   ===================================================================== */
+
+/* ---------- 1. Culori și dimensiuni (temă luminoasă) ---------- */
+:root {
+  --hartie: #f4f6f3;          /* fundalul paginii */
+  --patratele: #dfe5ec;       /* liniile caietului */
+  --suprafata: #ffffff;       /* carduri, foaia de calcul */
+  --suprafata-2: #f0f3f7;     /* zone secundare, antete de grilă */
+  --cerneala: #1a2230;        /* textul principal */
+  --cerneala-2: #4b5667;      /* text secundar */
+  --cerneala-3: #7a8494;      /* text estompat */
+  --linie: #d4dbe4;           /* borduri */
+  --albastru: #2344a8;        /* cerneala de stilou — accent principal */
+  --albastru-2: #e5ebfb;      /* fundal accent */
+  --rosu: #c8342b;            /* pixul profesorului */
+  --rosu-2: #fbe9e7;
+  --verde: #1f7a4a;           /* corect */
+  --verde-2: #e3f3ea;
+  --marker: #ffe27a;          /* marker galben pentru ce e important */
+  --portocaliu: #b85c00;
+  --umbra: 0 1px 2px rgba(26, 34, 48, .06), 0 4px 16px rgba(26, 34, 48, .06);
+  --raza: 10px;
+  --f-titlu: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --f-text: 'Source Sans 3 Variable', 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --f-mono: 'JetBrains Mono Variable', 'JetBrains Mono', Consolas, 'Cascadia Mono', monospace;
+  --f-mana: 'Caveat Variable', 'Caveat', 'Segoe Print', 'Comic Sans MS', cursive;
+  /* culorile referințelor din formule (ca în Excel) */
+  --ref-0: #2f6fdf; --ref-1: #d6336c; --ref-2: #7c4dff; --ref-3: #1f9d55; --ref-4: #e8710a; --ref-5: #0f9fb5;
+  color-scheme: light;
+}
+
+/* ---------- Temă întunecată ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hartie: #11151b; --patratele: #1b222c; --suprafata: #171d25; --suprafata-2: #1e2630;
+    --cerneala: #e4e8ee; --cerneala-2: #aab4c2; --cerneala-3: #7c8797; --linie: #2b3542;
+    --albastru: #8fa8ff; --albastru-2: #1f2a4a; --rosu: #ff7a6e; --rosu-2: #3a1f1d;
+    --verde: #5fd394; --verde-2: #173326; --marker: #e8c547; --portocaliu: #ffab5e;
+    --umbra: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    --ref-0: #6ea0ff; --ref-1: #ff6b9a; --ref-2: #a98bff; --ref-3: #4fd28a; --ref-4: #ffa04d; --ref-5: #45d0e4;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --hartie: #11151b; --patratele: #1b222c; --suprafata: #171d25; --suprafata-2: #1e2630;
+  --cerneala: #e4e8ee; --cerneala-2: #aab4c2; --cerneala-3: #7c8797; --linie: #2b3542;
+  --albastru: #8fa8ff; --albastru-2: #1f2a4a; --rosu: #ff7a6e; --rosu-2: #3a1f1d;
+  --verde: #5fd394; --verde-2: #173326; --marker: #e8c547; --portocaliu: #ffab5e;
+  --umbra: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  --ref-0: #6ea0ff; --ref-1: #ff6b9a; --ref-2: #a98bff; --ref-3: #4fd28a; --ref-4: #ffa04d; --ref-5: #45d0e4;
+  color-scheme: dark;
+}
+
+/* ---------- 2. Bază ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 84px; }
+body {
+  margin: 0;
+  font-family: var(--f-text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--cerneala);
+  background-color: var(--hartie);
+  /* caietul cu pătrățele */
+  background-image:
+    linear-gradient(var(--patratele) 1px, transparent 1px),
+    linear-gradient(90deg, var(--patratele) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+h1, h2, h3, h4 { font-family: var(--f-titlu); line-height: 1.15; letter-spacing: -.01em; margin: 0 0 .5em; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 750; }
+h2 { font-size: clamp(1.4rem, 2.6vw, 1.85rem); font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 650; }
+p { margin: 0 0 .9em; }
+a { color: var(--albastru); text-underline-offset: 3px; }
+code, kbd, .mono { font-family: var(--f-mono); font-size: .9em; }
+kbd {
+  display: inline-block; padding: .05em .45em; border: 1px solid var(--linie); border-bottom-width: 2px;
+  border-radius: 5px; background: var(--suprafata); font-size: .82em; white-space: nowrap;
+}
+mark, .marker { background: linear-gradient(transparent 45%, var(--marker) 45%); color: inherit; padding: 0 .1em; }
+img, svg { max-width: 100%; }
+:focus-visible { outline: 3px solid var(--albastru); outline-offset: 2px; border-radius: 4px; }
+.ascuns { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- 3. Bara de sus ---------- */
+.bara-sus {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--suprafata) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(8px);
+  border-bottom: 1px solid var(--linie);
+}
+.bara-sus .interior {
+  max-width: 1280px; margin: 0 auto; padding: 8px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.sigla {
+  display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cerneala);
+  font-family: var(--f-titlu); font-weight: 750; font-size: 1.05rem; user-select: none;
+}
+/* sigla = cursorul de celulă cu pătrățelul de umplere */
+.sigla-cursor {
+  position: relative; width: 34px; height: 26px; border: 2.5px solid var(--albastru); border-radius: 2px;
+  display: grid; place-items: center; font-family: var(--f-mono); font-size: .8rem; color: var(--albastru); font-weight: 700;
+}
+.sigla-cursor::after {
+  content: ''; position: absolute; right: -5px; bottom: -5px; width: 7px; height: 7px;
+  background: var(--albastru); border: 1.5px solid var(--suprafata);
+}
+.sigla small { display: block; font-family: var(--f-text); font-weight: 500; font-size: .75rem; color: var(--cerneala-3); letter-spacing: 0; }
+/* caseta de nume (ca în Excel) — arată unde se află elevul */
+.caseta-nume {
+  font-family: var(--f-mono); font-size: .82rem; padding: 3px 8px; border: 1px solid var(--linie);
+  border-radius: 4px; background: var(--suprafata); color: var(--cerneala-2); white-space: nowrap;
+}
+.bara-sus nav { display: flex; gap: 2px; margin-left: auto; align-items: center; }
+.bara-sus nav a {
+  text-decoration: none; color: var(--cerneala-2); padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: .95rem;
+}
+.bara-sus nav a:hover { background: var(--suprafata-2); color: var(--cerneala); }
+.bara-sus nav a[aria-current="page"] { color: var(--albastru); background: var(--albastru-2); }
+.unelte { display: flex; gap: 6px; align-items: center; }
+.puncte-sus {
+  font-family: var(--f-mono); font-size: .85rem; font-weight: 600; padding: 4px 10px; border-radius: 99px;
+  background: var(--albastru-2); color: var(--albastru); white-space: nowrap;
+}
+.btn-icon {
+  width: 36px; height: 36px; display: inline-grid; place-items: center; border-radius: 8px; border: 1px solid var(--linie);
+  background: var(--suprafata); color: var(--cerneala); cursor: pointer; font-size: 1rem;
+}
+.btn-icon:hover { border-color: var(--albastru); }
+.comut-limba { font-family: var(--f-mono); font-size: .75rem; font-weight: 700; width: auto; padding: 0 8px; }
+.meniu-mobil { display: none; }
+@media (max-width: 900px) {
+  .bara-sus nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch;
+    background: var(--suprafata); border-bottom: 1px solid var(--linie); padding: 8px 16px 12px; margin: 0; }
+  .bara-sus nav.deschis { display: flex; }
+  .meniu-mobil { display: inline-grid; margin-left: auto; }
+  .caseta-nume { display: none; }
+}
+@media (max-width: 520px) { .sigla small { display: none; } .puncte-sus { display: none; } }
+
+/* bandă roșie când modul profesor e activ */
+body.mod-profesor .bara-sus { border-bottom: 3px solid var(--rosu); }
+.eticheta-profesor {
+  display: none; font-family: var(--f-mana); font-size: 1.25rem; color: var(--rosu); font-weight: 700; line-height: 1;
+  transform: rotate(-3deg); white-space: nowrap;
+}
+body.mod-profesor .eticheta-profesor { display: inline-block; }
+
+/* ---------- 4. Pagini și secțiuni ---------- */
+.pagina { max-width: 1280px; margin: 0 auto; padding: 24px 16px 80px; }
+.ingust { max-width: 880px; }
+.card {
+  background: var(--suprafata); border: 1px solid var(--linie); border-radius: var(--raza); box-shadow: var(--umbra);
+  padding: 22px 24px;
+}
+.card + .card { margin-top: 16px; }
+@media (max-width: 600px) { .card { padding: 16px; } }
+.eticheta {
+  display: inline-block; font-family: var(--f-mono); font-size: .75rem; font-weight: 600; letter-spacing: .02em;
+  color: var(--cerneala-3); text-transform: uppercase;
+}
+.nota, .atentie, .sfat, .definitie {
+  border-left: 4px solid var(--albastru); background: var(--albastru-2); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 14px 0;
+}
+.atentie { border-color: var(--portocaliu); background: color-mix(in srgb, var(--portocaliu) 12%, var(--suprafata)); }
+.sfat { border-color: var(--verde); background: var(--verde-2); }
+.definitie { border-color: var(--cerneala); background: var(--suprafata-2); }
+.nota > :last-child, .atentie > :last-child, .sfat > :last-child, .definitie > :last-child { margin-bottom: 0; }
+.nota strong:first-child, .atentie strong:first-child, .sfat strong:first-child { display: block; margin-bottom: 2px; }
+
+/* formulă afișată în text (EN sau RO, după comutator) */
+.f {
+  font-family: var(--f-mono); font-size: .88em; background: var(--suprafata-2); border: 1px solid var(--linie);
+  padding: .08em .4em; border-radius: 5px; white-space: nowrap; color: var(--cerneala);
+}
+.f-bloc { display: block; white-space: pre-wrap; padding: 10px 14px; margin: 10px 0; font-size: .95rem; }
+.fn-pereche { font-family: var(--f-mono); font-weight: 700; }
+.fn-pereche .ro { color: var(--cerneala-3); font-weight: 500; }
+
+/* ---------- 5. Butoane și formulare ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-weight: 650; font-size: .95rem;
+  padding: 9px 16px; border-radius: 8px; border: 1px solid var(--linie); background: var(--suprafata); color: var(--cerneala);
+  cursor: pointer; text-decoration: none; line-height: 1.2; transition: transform .08s ease, border-color .15s;
+}
+.btn:hover { border-color: var(--albastru); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primar { background: var(--albastru); border-color: var(--albastru); color: #fff; }
+:root[data-theme="dark"] .btn-primar { color: #0e1320; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-primar { color: #0e1320; } }
+.btn-primar:hover { filter: brightness(1.08); }
+.btn-mic { padding: 5px 10px; font-size: .85rem; border-radius: 6px; }
+.btn-fantoma { background: transparent; }
+.btn-rosu { color: var(--rosu); border-color: color-mix(in srgb, var(--rosu) 40%, var(--linie)); }
+.rand-butoane { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+input[type="text"], input[type="password"], input[type="number"], select, textarea {
+  font: inherit; font-size: 1rem; padding: 8px 10px; border: 1px solid var(--linie); border-radius: 7px;
+  background: var(--suprafata); color: var(--cerneala); min-width: 0;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--albastru); outline-offset: 0; border-color: var(--albastru); }
+.comutator { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: .95rem; user-select: none; }
+.comutator input { width: 18px; height: 18px; accent-color: var(--albastru); }
+
+/* ---------- 6. Progres, puncte, insigne ---------- */
+.bara-progres { height: 8px; background: var(--suprafata-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--linie); }
+.bara-progres > span { display: block; height: 100%; background: var(--albastru); border-radius: 99px; transition: width .5s ease; }
+.insigna {
+  --c: var(--albastru);
+  display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 50%;
+  border: 3px double var(--c); color: var(--c); font-family: var(--f-titlu); font-weight: 800; font-size: 1rem;
+  background: var(--suprafata); position: relative;
+}
+.insigna.blocata { --c: var(--cerneala-3); opacity: .45; filter: grayscale(1); }
+.toast-zona { position: fixed; bottom: 16px; right: 16px; left: 16px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; z-index: 200; pointer-events: none; }
+.toast {
+  pointer-events: auto; background: var(--cerneala); color: var(--suprafata); padding: 10px 16px; border-radius: 10px; box-shadow: var(--umbra);
+  font-weight: 600; max-width: 420px; animation: toast-in .25s ease;
+}
+.toast.insigna-noua { background: var(--albastru); color: #fff; }
+@keyframes toast-in { from { transform: translateY(12px); opacity: 0; } }
+
+/* ---------- 7. Modal ---------- */
+.modal-fundal { position: fixed; inset: 0; background: rgba(10, 14, 20, .55); display: grid; place-items: center; z-index: 300; padding: 16px; }
+.modal { background: var(--suprafata); border-radius: 14px; padding: 24px; width: min(440px, 100%); box-shadow: 0 20px 60px rgba(0,0,0,.35); border: 1px solid var(--linie); }
+.modal h3 { margin-bottom: .3em; }
+.modal .rand-butoane { justify-content: flex-end; margin-top: 16px; }
+.modal input { width: 100%; }
+
+/* ---------- 8. Conținut rezervat profesorului (pixul roșu) ---------- */
+.doar-profesor { display: none !important; }
+body.mod-profesor .doar-profesor { display: block !important; }
+body.mod-profesor span.doar-profesor, body.mod-profesor .doar-profesor-inline { display: inline !important; }
+.pix-rosu {
+  border: 1.5px dashed var(--rosu); background: var(--rosu-2); border-radius: 8px; padding: 12px 16px; margin: 10px 0; color: var(--cerneala);
+}
+.pix-rosu > .titlu-pix { font-family: var(--f-mana); color: var(--rosu); font-size: 1.45rem; font-weight: 700; line-height: 1; display: block; margin-bottom: 6px; }
+
+/* ---------- 9. Subsol ---------- */
+.subsol { border-top: 1px solid var(--linie); background: var(--suprafata); color: var(--cerneala-3); font-size: .9rem; }
+.subsol .interior { max-width: 1280px; margin: 0 auto; padding: 18px 16px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+/* =====================================================================
+   10. SIMULATORUL DE FOAIE DE CALCUL
+   ===================================================================== */
+.xl {
+  --xl-cel-h: 28px;
+  border: 1px solid var(--linie); border-radius: var(--raza); background: var(--suprafata); overflow: hidden;
+  box-shadow: var(--umbra); font-family: var(--f-text); font-size: .95rem; position: relative;
+  display: flex; flex-direction: column;
+}
+.xl-toolbar {
+  display: flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 6px 8px; border-bottom: 1px solid var(--linie); background: var(--suprafata-2);
+}
+.xl-toolbar button, .xl-toolbar select {
+  font: inherit; font-size: .82rem; height: 30px; min-width: 30px; padding: 0 8px; border-radius: 6px; border: 1px solid transparent;
+  background: transparent; color: var(--cerneala); cursor: pointer;
+}
+.xl-toolbar select { border-color: var(--linie); background: var(--suprafata); }
+.xl-toolbar button:hover { background: var(--suprafata); border-color: var(--linie); }
+.xl-toolbar button[aria-pressed="true"] { background: var(--albastru-2); border-color: var(--albastru); color: var(--albastru); }
+.xl-toolbar .sep { width: 1px; height: 20px; background: var(--linie); margin: 0 4px; }
+.xl-fbar { display: flex; align-items: stretch; border-bottom: 1px solid var(--linie); min-height: 36px; }
+.xl-namebox {
+  width: 92px; flex: none; border: 0; border-right: 1px solid var(--linie); border-radius: 0; font-family: var(--f-mono);
+  font-size: .85rem; padding: 0 8px; background: var(--suprafata); text-align: center;
+}
+.xl-fx {
+  flex: none; width: 36px; display: grid; place-items: center; font-style: italic; font-family: Georgia, serif; font-weight: 700;
+  color: var(--cerneala-3); border-right: 1px solid var(--linie);
+}
+.xl-fwrap { position: relative; flex: 1; min-width: 0; }
+.xl-finput, .xl-fmirror {
+  position: absolute; inset: 0; width: 100%; margin: 0; border: 0; padding: 0 10px; font-family: var(--f-mono); font-size: .92rem;
+  line-height: 36px; white-space: pre; letter-spacing: 0;
+}
+.xl-finput { background: transparent; color: transparent; caret-color: var(--cerneala); z-index: 2; border-radius: 0; outline: none; }
+.xl-finput:focus { outline: none; box-shadow: inset 0 -2px 0 var(--albastru); }
+.xl-finput::selection { background: color-mix(in srgb, var(--albastru) 30%, transparent); color: transparent; }
+.xl-fmirror { color: var(--cerneala); overflow: hidden; pointer-events: none; z-index: 1; }
+.xl-fmirror .r0 { color: var(--ref-0); } .xl-fmirror .r1 { color: var(--ref-1); } .xl-fmirror .r2 { color: var(--ref-2); }
+.xl-fmirror .r3 { color: var(--ref-3); } .xl-fmirror .r4 { color: var(--ref-4); } .xl-fmirror .r5 { color: var(--ref-5); }
+.xl-fmirror .ref { font-weight: 700; }
+.xl-mesaj {
+  display: none; padding: 8px 12px; font-size: .9rem; background: var(--rosu-2); color: var(--cerneala); border-bottom: 1px solid var(--linie);
+}
+.xl-mesaj.vizibil { display: block; }
+.xl-mesaj b { color: var(--rosu); }
+.xl-scroll { overflow: auto; position: relative; flex: 1; max-height: var(--xl-inaltime, 420px); -webkit-overflow-scrolling: touch; }
+.xl-strat { position: relative; display: inline-block; min-width: 100%; }
+.xl-grid { border-collapse: separate; border-spacing: 0; table-layout: fixed; user-select: none; -webkit-user-select: none; }
+.xl-grid th, .xl-grid td {
+  height: var(--xl-cel-h); padding: 0 5px; border-right: 1px solid var(--linie); border-bottom: 1px solid var(--linie);
+  white-space: nowrap; overflow: hidden; text-overflow: clip; font-size: .92rem;
+}
+.xl-grid th {
+  background: var(--suprafata-2); color: var(--cerneala-2); font-weight: 500; font-size: .78rem; text-align: center; position: sticky; z-index: 3;
+  font-family: var(--f-text); cursor: default;
+}
+.xl-grid thead th { top: 0; z-index: 4; }
+.xl-grid tbody th { left: 0; width: 42px; min-width: 42px; }
+.xl-grid thead th:first-child { left: 0; z-index: 5; }
+.xl-grid th.activ { background: color-mix(in srgb, var(--albastru) 18%, var(--suprafata-2)); color: var(--albastru); font-weight: 700; }
+.xl-grid td { background: var(--suprafata); color: var(--cerneala); cursor: cell; }
+.xl-grid td.num { text-align: right; }
+.xl-grid td.centru { text-align: center; }
+.xl-grid td.err { text-align: center; color: var(--rosu); font-weight: 600; }
+.xl-grid td.bold { font-weight: 700; }
+.xl-grid td.italic { font-style: italic; }
+.xl-grid td.al-left { text-align: left; } .xl-grid td.al-center { text-align: center; } .xl-grid td.al-right { text-align: right; }
+.xl-grid td.chenar { box-shadow: inset 0 0 0 1px var(--cerneala); }
+.xl-grid td.umplut { background: color-mix(in srgb, var(--albastru) 10%, var(--suprafata)); }
+.xl-grid td.sel { background: color-mix(in srgb, var(--albastru) 12%, var(--suprafata)); }
+.xl-grid td.blocat { color: var(--cerneala-2); }
+.xl-grid td.formula-vazuta { font-family: var(--f-mono); font-size: .8rem; text-align: left; color: var(--albastru); }
+.xl-grid td.tinta { background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--marker) 55%, transparent) 6px 8px); }
+.xl-grid tr.ascuns-filtru { display: none; }
+.xl-redim { position: absolute; top: 0; right: -3px; width: 6px; height: 100%; cursor: col-resize; z-index: 6; }
+/* cursorul de celulă + pătrățelul de umplere */
+.xl-cursor {
+  position: absolute; border: 2px solid var(--albastru); pointer-events: none; z-index: 7; transition: left .06s, top .06s, width .06s, height .06s;
+}
+.xl-zona { position: absolute; background: color-mix(in srgb, var(--albastru) 8%, transparent); border: 1px solid var(--albastru); pointer-events: none; z-index: 6; }
+.xl-maner {
+  position: absolute; width: 9px; height: 9px; background: var(--albastru); border: 1.5px solid var(--suprafata); z-index: 9; cursor: crosshair;
+}
+.xl-umplere-previz { position: absolute; border: 2px dashed var(--cerneala-2); pointer-events: none; z-index: 8; }
+.xl-copiere { position: absolute; pointer-events: none; z-index: 8; border: 2px dashed var(--albastru); animation: furnici 1s linear infinite; }
+@keyframes furnici { 50% { border-color: transparent; } }
+/* chenarele colorate ale referințelor din formula selectată */
+.xl-refbox { position: absolute; pointer-events: none; z-index: 6; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 10%, transparent); }
+.xl-refbox::after { content: ''; position: absolute; width: 6px; height: 6px; right: -4px; bottom: -4px; background: var(--c); }
+.xl-editor {
+  position: absolute; z-index: 10; border: 2px solid var(--albastru); padding: 0 4px; font-family: var(--f-text); font-size: .92rem;
+  background: var(--suprafata); color: var(--cerneala); outline: none; box-shadow: 0 3px 12px rgba(0,0,0,.18); border-radius: 0;
+}
+.xl-tabs { display: flex; align-items: stretch; gap: 0; border-top: 1px solid var(--linie); background: var(--suprafata-2); overflow-x: auto; min-height: 34px; }
+.xl-tab {
+  font: inherit; font-size: .85rem; border: 0; border-right: 1px solid var(--linie); background: transparent; color: var(--cerneala-2); padding: 0 16px;
+  cursor: pointer; white-space: nowrap; position: relative;
+}
+.xl-tab[aria-selected="true"] { background: var(--suprafata); color: var(--albastru); font-weight: 700; box-shadow: inset 0 -3px 0 var(--albastru); }
+.xl-tab-nou { font-weight: 700; color: var(--cerneala-3); padding: 0 12px; }
+.xl-tab input { font: inherit; font-size: .85rem; width: 110px; padding: 2px 4px; }
+.xl-status {
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 18px; padding: 4px 12px; font-size: .8rem; color: var(--cerneala-2);
+  border-top: 1px solid var(--linie); background: var(--suprafata-2); min-height: 26px; align-items: center;
+}
+.xl-status b { color: var(--cerneala); font-family: var(--f-mono); font-weight: 600; }
+.xl-status .stanga { margin-right: auto; }
+.xl-eroare {
+  display: none; border-top: 1px solid var(--linie); padding: 12px 16px; background: var(--rosu-2); font-size: .92rem;
+}
+.xl-eroare.vizibil { display: block; }
+.xl-eroare h4 { font-family: var(--f-text); font-size: 1rem; margin: 0 0 4px; }
+.xl-eroare h4 code { color: var(--rosu); font-size: 1rem; margin-right: 6px; }
+.xl-eroare ul { margin: 4px 0 6px; padding-left: 20px; }
+.xl-eroare p { margin: 0 0 4px; }
+.xl-meniu {
+  position: fixed; z-index: 400; background: var(--suprafata); border: 1px solid var(--linie); border-radius: 8px; box-shadow: var(--umbra);
+  padding: 4px; min-width: 190px; font-size: .9rem;
+}
+.xl-meniu button { display: block; width: 100%; text-align: left; font: inherit; border: 0; background: transparent; color: var(--cerneala); padding: 7px 12px; border-radius: 5px; cursor: pointer; }
+.xl-meniu button:hover { background: var(--albastru-2); }
+.xl-meniu hr { border: 0; border-top: 1px solid var(--linie); margin: 4px 0; }
+.xl-alte-foi { font-size: .8rem; color: var(--cerneala-2); padding: 4px 12px; border-top: 1px solid var(--linie); display: none; }
+.xl-alte-foi.vizibil { display: block; }
+.xl-alte-foi span { font-family: var(--f-mono); font-weight: 700; margin-right: 10px; }
+
+/* ---- funcțiile avansate ale simulatorului ---- */
+.xl-toolbar .xl-meniu-btn { font-weight: 600; }
+.xl-mesaj.info { background: var(--albastru-2); }
+.xl-mesaj.info b { color: var(--albastru); }
+.xl-grid td.invalid { outline: 2px solid #e00; outline-offset: -3px; border-radius: 40%; }
+.xl-filtru-btn {
+  position: absolute; right: 2px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; display: grid; place-items: center;
+  font-size: .7rem; border: 1px solid var(--linie); border-radius: 3px; background: var(--suprafata-2); color: var(--cerneala); cursor: pointer; font-weight: 400;
+}
+.xl-filtru-btn.activ { background: var(--albastru); color: #fff; border-color: var(--albastru); }
+.xl-lista-btn {
+  position: absolute; z-index: 9; width: 20px; padding: 0; border: 1px solid var(--linie); background: var(--suprafata-2); color: var(--cerneala); cursor: pointer; font-size: .75rem;
+}
+.xl-popup {
+  position: fixed; z-index: 400; background: var(--suprafata); border: 1px solid var(--linie); border-radius: 10px; box-shadow: var(--umbra); padding: 12px; width: 280px; font-size: .9rem;
+}
+.xl-popup-lista { max-height: 180px; overflow: auto; border: 1px solid var(--linie); border-radius: 6px; padding: 6px 8px; margin-top: 8px; }
+.xl-popup-lista label { display: flex; gap: 8px; align-items: center; padding: 2px 0; }
+.xl-popup select, .xl-popup input[type=text] { font-size: .88rem; padding: 5px 8px; flex: 1; min-width: 0; }
+.xl-formular { display: grid; gap: 8px; max-height: 60vh; overflow: auto; padding-right: 4px; }
+.xl-formular h4 { margin: 10px 0 0; font-family: var(--f-text); font-size: .95rem; }
+.xl-camp { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px; align-items: center; font-size: .92rem; }
+.xl-camp select, .xl-camp input { width: 100%; font-size: .92rem; padding: 6px 8px; }
+@media (max-width: 520px) { .xl-camp { grid-template-columns: 1fr; gap: 2px; } }
+.xl-bloc { display: grid; gap: 2px; }
+.xl-ajutor { color: var(--cerneala-3); padding-left: 160px; }
+@media (max-width: 520px) { .xl-ajutor { padding-left: 0; } }
+.xl-nota { font-size: .88rem; color: var(--cerneala-2); margin: 0; background: var(--suprafata-2); padding: 8px 10px; border-radius: 6px; }
+.xl-diagrame { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; padding: 0 12px; }
+.xl-diagrame:not(:empty) { padding: 12px; border-top: 1px solid var(--linie); background: var(--suprafata-2); }
+.xl-diagrama { margin: 0; background: var(--suprafata); border: 1px solid var(--linie); border-radius: 8px; padding: 10px; color: var(--cerneala); }
+.xl-diagrama svg { width: 100%; height: auto; display: block; }
+.xl-diagrama figcaption { font-size: .8rem; color: var(--cerneala-3); margin-top: 6px; }
+.xl-diagrama figcaption span { margin-right: auto; }
+.xl-contur { display: flex; gap: 6px; align-items: center; padding: 4px 10px; border-bottom: 1px solid var(--linie); font-size: .82rem; color: var(--cerneala-2); background: var(--suprafata-2); }
+.modal { width: min(520px, 100%); }
+
+/* =====================================================================
+   11. LECȚIE
+   ===================================================================== */
+.lectie-cap { display: grid; grid-template-columns: 1fr auto; gap: 16px 32px; align-items: end; margin: 8px 0 24px; }
+.lectie-cap .numar-ora {
+  font-family: var(--f-mono); font-weight: 700; color: var(--albastru); font-size: .9rem; display: inline-flex; gap: 8px; align-items: center;
+}
+.lectie-cap h1 { margin: 6px 0 8px; max-width: 22ch; }
+.lectie-cap .rezumat { color: var(--cerneala-2); font-size: 1.1rem; max-width: 60ch; margin: 0; }
+.lectie-progres { min-width: 240px; }
+.lectie-progres .rand { display: flex; justify-content: space-between; font-size: .85rem; color: var(--cerneala-2); margin-bottom: 6px; }
+@media (max-width: 760px) { .lectie-cap { grid-template-columns: 1fr; } }
+.lectie-corp { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 32px; align-items: start; }
+.lectie-corp > * { min-width: 0; }
+.cuprins-lectie { position: sticky; top: 84px; font-size: .92rem; }
+.cuprins-lectie ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--linie); }
+.cuprins-lectie a {
+  display: flex; justify-content: space-between; gap: 8px; padding: 6px 12px; margin-left: -2px; border-left: 2px solid transparent;
+  color: var(--cerneala-2); text-decoration: none;
+}
+.cuprins-lectie a:hover { color: var(--cerneala); }
+.cuprins-lectie a.activ { color: var(--albastru); border-left-color: var(--albastru); font-weight: 650; }
+.cuprins-lectie .bifa { color: var(--verde); font-weight: 700; }
+@media (max-width: 980px) {
+  .lectie-corp { grid-template-columns: minmax(0, 1fr); }
+  .cuprins-lectie { position: sticky; top: 57px; z-index: 20; background: var(--hartie); margin: 0 -16px; padding: 6px 16px; border-bottom: 1px solid var(--linie); }
+  .cuprins-lectie ol { display: flex; overflow-x: auto; border: 0; gap: 4px; scrollbar-width: none; }
+  .cuprins-lectie a { white-space: nowrap; border: 1px solid var(--linie); border-radius: 99px; margin: 0; padding: 4px 12px; background: var(--suprafata); }
+  .cuprins-lectie a.activ { border-color: var(--albastru); }
+}
+.sectiune { margin-bottom: 48px; }
+.sectiune > h2 { display: flex; align-items: baseline; gap: 12px; }
+.sectiune > h2 .eticheta { font-size: .8rem; }
+.obiective { columns: 2 280px; column-gap: 32px; padding-left: 20px; margin: 0; }
+.obiective li { break-inside: avoid; margin-bottom: 6px; }
+.teorie-bloc { margin-bottom: 20px; }
+.teorie-bloc h3 { display: flex; gap: 10px; align-items: baseline; }
+.teorie-bloc h3 .adresa { font-family: var(--f-mono); font-size: .8rem; color: var(--albastru); font-weight: 600; }
+.tabel {
+  width: 100%; border-collapse: collapse; font-size: .95rem; margin: 10px 0; background: var(--suprafata);
+}
+.tabel th, .tabel td { border: 1px solid var(--linie); padding: 7px 10px; text-align: left; vertical-align: top; }
+.tabel th { background: var(--suprafata-2); font-weight: 650; }
+.tabel-scroll { overflow-x: auto; }
+.figura-interfata { margin: 14px 0; }
+.navigare-lectii { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+
+/* =====================================================================
+   12. EXERCIȚII
+   ===================================================================== */
+.ex {
+  background: var(--suprafata); border: 1px solid var(--linie); border-radius: var(--raza); box-shadow: var(--umbra); margin-bottom: 20px; overflow: hidden;
+}
+.ex-cap { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--linie); flex-wrap: wrap; }
+.ex-cap h3 { margin: 0; font-size: 1.08rem; flex: 1; min-width: 200px; }
+.ex-tip { font-family: var(--f-mono); font-size: .72rem; font-weight: 600; text-transform: uppercase; color: var(--cerneala-3); letter-spacing: .03em; }
+.ex-nivel { font-size: .75rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: var(--suprafata-2); color: var(--cerneala-2); }
+.ex-puncte { font-family: var(--f-mono); font-size: .82rem; font-weight: 700; color: var(--albastru); }
+.ex.rezolvat .ex-cap { background: var(--verde-2); }
+.ex.rezolvat .ex-puncte::before { content: '✓ '; color: var(--verde); }
+.ex-corp { padding: 16px 20px 20px; }
+.ex-cerinta { margin-bottom: 12px; }
+.ex-actiuni { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+.ex-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 8px; display: none; }
+.ex-feedback.ok { display: block; background: var(--verde-2); border-left: 4px solid var(--verde); }
+.ex-feedback.gresit { display: block; background: var(--rosu-2); border-left: 4px solid var(--rosu); }
+.ex-feedback.info { display: block; background: var(--albastru-2); border-left: 4px solid var(--albastru); }
+.ex-indicii { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.ex-indiciu { padding: 8px 12px; background: color-mix(in srgb, var(--marker) 22%, var(--suprafata)); border-radius: 8px; font-size: .95rem; animation: toast-in .2s ease; }
+.ex-indiciu b { font-family: var(--f-mono); font-size: .78rem; text-transform: uppercase; margin-right: 6px; }
+
+/* potrivire / clasificare prin tragere */
+.dd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 640px) { .dd { grid-template-columns: 1fr; } }
+.dd-rezerva { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; min-height: 56px; padding: 10px; border: 2px dashed var(--linie); border-radius: 10px; }
+.dd-jeton {
+  font-family: var(--f-mono); font-weight: 600; font-size: .88rem; padding: 6px 12px; border-radius: 7px; background: var(--suprafata);
+  border: 1.5px solid var(--cerneala-3); cursor: grab; user-select: none; touch-action: none; color: var(--cerneala);
+}
+.dd-jeton:focus-visible { outline-offset: 1px; }
+.dd-jeton.ales { border-color: var(--albastru); background: var(--albastru-2); box-shadow: 0 0 0 3px color-mix(in srgb, var(--albastru) 25%, transparent); }
+.dd-jeton.trage { opacity: .5; }
+.dd-jeton.corect { border-color: var(--verde); background: var(--verde-2); }
+.dd-jeton.gresit { border-color: var(--rosu); background: var(--rosu-2); }
+.dd-tinte { display: flex; flex-direction: column; gap: 8px; }
+.dd-tinta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 42%); gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--linie); border-radius: 10px; background: var(--suprafata); }
+.dd-tinta .loc { min-height: 38px; border: 2px dashed var(--linie); border-radius: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 3px; }
+.dd-tinta .loc.peste { border-color: var(--albastru); background: var(--albastru-2); }
+.dd-categorii { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.dd-categorie { border: 1px solid var(--linie); border-radius: 10px; background: var(--suprafata); overflow: hidden; }
+.dd-categorie h4 { margin: 0; padding: 8px 12px; font-family: var(--f-text); font-size: .95rem; background: var(--suprafata-2); border-bottom: 1px solid var(--linie); }
+.dd-categorie .loc { min-height: 90px; padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
+.dd-categorie .loc.peste { background: var(--albastru-2); }
+
+/* ordonare */
+.ord-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; counter-reset: pas; }
+.ord-lista li {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--linie); border-radius: 8px; background: var(--suprafata);
+  counter-increment: pas; cursor: grab; touch-action: none;
+}
+.ord-lista li::before { content: counter(pas); font-family: var(--f-mono); font-weight: 700; color: var(--albastru); min-width: 1.5em; }
+.ord-lista li .text { flex: 1; }
+.ord-lista li.trage { opacity: .4; }
+.ord-lista li.corect { border-color: var(--verde); background: var(--verde-2); }
+.ord-lista li.gresit { border-color: var(--rosu); background: var(--rosu-2); }
+.ord-lista .sageti { display: flex; gap: 2px; }
+.ord-lista .sageti button { width: 30px; height: 30px; border: 1px solid var(--linie); background: var(--suprafata); border-radius: 6px; cursor: pointer; color: var(--cerneala); }
+
+/* completare / greșeala din formulă */
+.formula-lacuna { font-family: var(--f-mono); font-size: 1.05rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 12px; background: var(--suprafata-2); border-radius: 8px; }
+.formula-lacuna input { font-family: var(--f-mono); width: 8ch; padding: 4px 6px; text-align: center; }
+.formula-jetoane { font-family: var(--f-mono); font-size: 1.1rem; display: flex; flex-wrap: wrap; gap: 2px; padding: 12px; background: var(--suprafata-2); border-radius: 8px; }
+.formula-jetoane button {
+  font: inherit; border: 1px solid transparent; background: transparent; color: var(--cerneala); padding: 2px 3px; border-radius: 4px; cursor: pointer;
+}
+.formula-jetoane button:hover { border-color: var(--cerneala-3); }
+.formula-jetoane button.ales { background: var(--rosu-2); border-color: var(--rosu); color: var(--rosu); }
+.formula-jetoane button.corect { background: var(--verde-2); border-color: var(--verde); }
+.optiuni-grila { display: grid; gap: 8px; }
+.optiune {
+  display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--linie); border-radius: 8px; cursor: pointer; background: var(--suprafata);
+}
+.optiune:hover { border-color: var(--albastru); }
+.optiune input { margin-top: 4px; accent-color: var(--albastru); width: 17px; height: 17px; flex: none; }
+.optiune.corect { border-color: var(--verde); background: var(--verde-2); }
+.optiune.gresit { border-color: var(--rosu); background: var(--rosu-2); }
+.optiune.blocat { cursor: default; }
+
+/* =====================================================================
+   13. ANIMAȚII PAS CU PAS
+   ===================================================================== */
+.anim { background: var(--suprafata); border: 1px solid var(--linie); border-radius: var(--raza); box-shadow: var(--umbra); overflow: hidden; margin-bottom: 20px; }
+.anim-cap { padding: 14px 20px; border-bottom: 1px solid var(--linie); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.anim-cap h3 { margin: 0; font-size: 1.08rem; }
+.anim-scena { padding: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px; align-items: center; }
+@media (max-width: 700px) { .anim-scena { grid-template-columns: 1fr; } }
+.anim-grila { border-collapse: separate; border-spacing: 0; font-size: .9rem; position: relative; }
+.anim-grila th, .anim-grila td { border-right: 1px solid var(--linie); border-bottom: 1px solid var(--linie); height: 30px; min-width: 64px; padding: 0 8px; white-space: nowrap; transition: background .3s, color .3s, box-shadow .3s; }
+.anim-grila th { background: var(--suprafata-2); color: var(--cerneala-2); font-weight: 500; font-size: .78rem; text-align: center; min-width: 34px; transition: background .3s, color .3s; }
+.anim-grila th.aprins { background: var(--albastru); color: #fff; font-weight: 700; }
+.anim-grila td.aprins { background: color-mix(in srgb, var(--albastru) 16%, var(--suprafata)); box-shadow: inset 0 0 0 2px var(--albastru); }
+.anim-grila td.cauta { background: color-mix(in srgb, var(--marker) 50%, var(--suprafata)); }
+.anim-grila td.gasit { background: var(--verde-2); box-shadow: inset 0 0 0 2px var(--verde); font-weight: 700; }
+.anim-grila td.zona { background: color-mix(in srgb, var(--ref-2) 14%, var(--suprafata)); }
+.anim-grila td.ref0 { box-shadow: inset 0 0 0 2px var(--ref-0); } .anim-grila td.ref1 { box-shadow: inset 0 0 0 2px var(--ref-1); }
+.anim-grila td.num { text-align: right; }
+.anim-grila td.formula { font-family: var(--f-mono); font-size: .8rem; color: var(--albastru); }
+.anim-text { font-size: 1.05rem; min-height: 5.5em; }
+.anim-text .pas-nr { font-family: var(--f-mono); font-size: .8rem; color: var(--cerneala-3); display: block; margin-bottom: 4px; }
+.anim-text .mare { font-family: var(--f-mono); font-size: 1.4rem; font-weight: 700; color: var(--albastru); display: block; margin: 6px 0; }
+.anim-control { display: flex; gap: 8px; align-items: center; padding: 10px 20px; border-top: 1px solid var(--linie); background: var(--suprafata-2); flex-wrap: wrap; }
+.anim-puncte { display: flex; gap: 5px; margin-left: auto; }
+.anim-puncte span { width: 8px; height: 8px; border-radius: 50%; background: var(--linie); }
+.anim-puncte span.activ { background: var(--albastru); }
+
+/* =====================================================================
+   14. HARTA CELOR 15 ORE (pagina principală)
+   ===================================================================== */
+.erou { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: center; padding: 28px 0 36px; }
+@media (max-width: 900px) { .erou { grid-template-columns: 1fr; gap: 24px; } }
+.erou h1 { font-size: clamp(2.2rem, 5.2vw, 3.8rem); line-height: 1.02; letter-spacing: -.025em; margin-bottom: 16px; }
+.erou h1 .cursor-titlu { position: relative; display: inline-block; padding: 0 .12em; border: 3px solid var(--albastru); }
+.erou h1 .cursor-titlu::after { content: ''; position: absolute; right: -7px; bottom: -7px; width: 11px; height: 11px; background: var(--albastru); border: 2px solid var(--hartie); }
+.erou .intro { font-size: 1.15rem; color: var(--cerneala-2); max-width: 52ch; }
+.erou-bara {
+  font-family: var(--f-mono); background: var(--suprafata); border: 1px solid var(--linie); border-radius: 10px; box-shadow: var(--umbra); overflow: hidden;
+}
+.erou-bara .fb { display: flex; border-bottom: 1px solid var(--linie); }
+.erou-bara .fb > span { padding: 10px 12px; border-right: 1px solid var(--linie); color: var(--cerneala-3); font-size: .85rem; }
+.erou-bara .fb output { padding: 10px 12px; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.erou-bara .fb output .r0 { color: var(--ref-0); font-weight: 700; }
+.erou-bara .rez { padding: 18px 16px 16px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.erou-bara .rez strong { font-size: 2.6rem; font-weight: 700; color: var(--albastru); line-height: 1; }
+.erou-bara .rez em { font-style: normal; color: var(--cerneala-2); font-family: var(--f-text); }
+.erou-bara .progres-mic { padding: 0 16px 16px; }
+.harta-cap { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.harta-cap h2 { margin: 0; }
+/* grila de ore: fiecare oră este o „celulă” cu adresa ei */
+.harta {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--linie); border-left: 1px solid var(--linie);
+  background: var(--suprafata); box-shadow: var(--umbra); border-radius: 2px;
+}
+@media (max-width: 1000px) { .harta { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .harta { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 400px) { .harta { grid-template-columns: 1fr; } }
+.ora-cel {
+  position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px 14px; min-height: 150px;
+  border-right: 1px solid var(--linie); border-bottom: 1px solid var(--linie); text-decoration: none; color: var(--cerneala);
+  background: var(--suprafata); transition: background .15s;
+}
+.ora-cel:hover { background: color-mix(in srgb, var(--albastru) 5%, var(--suprafata)); }
+.ora-cel .adr { font-family: var(--f-mono); font-size: .75rem; color: var(--cerneala-3); display: flex; justify-content: space-between; }
+.ora-cel .nr { font-family: var(--f-titlu); font-size: 2rem; font-weight: 800; line-height: 1; color: var(--cerneala-3); }
+.ora-cel h3 { font-size: 1rem; margin: 0; font-weight: 650; line-height: 1.25; }
+.ora-cel .bara-progres { margin-top: auto; height: 6px; }
+.ora-cel.gata .nr { color: var(--verde); }
+.ora-cel.inceput .nr { color: var(--albastru); }
+.ora-cel.indisponibil { color: var(--cerneala-3); }
+.ora-cel.indisponibil h3 { font-weight: 500; }
+.ora-cel .stare { font-size: .78rem; color: var(--cerneala-3); }
+/* „cursorul” stă pe ora la care a rămas elevul */
+.ora-cel.urmatoarea { z-index: 2; box-shadow: inset 0 0 0 3px var(--albastru); }
+.ora-cel.urmatoarea::after {
+  content: ''; position: absolute; right: -6px; bottom: -6px; width: 11px; height: 11px; background: var(--albastru); border: 2px solid var(--suprafata); z-index: 3;
+}
+.ora-cel.evaluare-dupa { box-shadow: inset -4px 0 0 var(--rosu); }
+.ora-cel.urmatoarea.evaluare-dupa { box-shadow: inset 0 0 0 3px var(--albastru), inset -7px 0 0 var(--rosu); }
+.legenda { display: flex; gap: 18px; flex-wrap: wrap; font-size: .85rem; color: var(--cerneala-2); margin-top: 10px; }
+.legenda i { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; border: 3px solid var(--albastru); }
+.legenda i.ev { border: 0; border-right: 4px solid var(--rosu); background: var(--suprafata-2); }
+.carduri-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+@media (max-width: 900px) { .carduri-3 { grid-template-columns: 1fr; } }
+.card-link { display: block; text-decoration: none; color: var(--cerneala); transition: transform .12s ease, border-color .15s; }
+.card-link:hover { transform: translateY(-2px); border-color: var(--albastru); }
+.card-link.olimpiada { background: #161b22; color: #e8e2d0; border-color: #161b22; }
+.card-link.olimpiada .eticheta { color: #f0b429; }
+.card-link.olimpiada p { color: #b9b3a3; }
+.insigne-rand { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* =====================================================================
+   15. TESTE
+   ===================================================================== */
+.quiz-cap { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.quiz-timer { font-family: var(--f-mono); font-size: 1.1rem; font-weight: 700; padding: 4px 12px; border-radius: 8px; background: var(--suprafata-2); border: 1px solid var(--linie); }
+.quiz-timer.putin { color: var(--rosu); border-color: var(--rosu); }
+.quiz-item { margin-bottom: 18px; }
+.quiz-item .enunt { font-weight: 600; margin-bottom: 10px; }
+.quiz-item .nr-item { font-family: var(--f-mono); color: var(--albastru); margin-right: 6px; }
+.quiz-rezultat { text-align: center; padding: 28px 16px; }
+.quiz-rezultat .nota-mare { font-family: var(--f-titlu); font-size: 4.5rem; font-weight: 800; line-height: 1; color: var(--albastru); }
+.quiz-rezultat .nota-mare.slab { color: var(--rosu); }
+.explicatie { margin-top: 8px; font-size: .95rem; padding: 8px 12px; border-radius: 8px; background: var(--suprafata-2); }
+.asociere { display: grid; gap: 8px; }
+.asociere .rand-asoc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: center; }
+.asociere select { width: 100%; }
+.completare input { font-family: var(--f-mono); width: 14ch; }

@@ -1,0 +1,132 @@
+/* =====================================================================
+   olimpiada.css — Aspectul distinct al modulului de antrenament
+   Ideea: sala de antrenament / pista de concurs — grafit, benzi de
+   pistă și chihlimbarul cronometrului. Se aplică doar pe paginile
+   cu <body class="olimpiada">.
+   ===================================================================== */
+body.olimpiada {
+  --hartie: #e8eaed; --patratele: transparent; --suprafata: #ffffff; --suprafata-2: #f1f2f4;
+  --cerneala: #15181d; --cerneala-2: #4a505a; --cerneala-3: #7b818b; --linie: #d3d6db;
+  --albastru: #a35c00; --albastru-2: #fbecd3; --chihlimbar: #f0b429; --grafit: #15181d;
+  background-color: var(--hartie);
+  /* benzile pistei */
+  background-image: repeating-linear-gradient(90deg, transparent 0 159px, rgba(21, 24, 29, .06) 159px 161px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.olimpiada {
+    --hartie: #0f1216; --suprafata: #171b21; --suprafata-2: #1e232b; --cerneala: #e7e9ec; --cerneala-2: #aab0ba; --cerneala-3: #7d8591; --linie: #2b313b;
+    --albastru: #f0b429; --albastru-2: #33280f;
+    background-image: repeating-linear-gradient(90deg, transparent 0 159px, rgba(240, 180, 41, .05) 159px 161px);
+  }
+}
+:root[data-theme="dark"] body.olimpiada {
+  --hartie: #0f1216; --suprafata: #171b21; --suprafata-2: #1e232b; --cerneala: #e7e9ec; --cerneala-2: #aab0ba; --cerneala-3: #7d8591; --linie: #2b313b;
+  --albastru: #f0b429; --albastru-2: #33280f;
+  background-image: repeating-linear-gradient(90deg, transparent 0 159px, rgba(240, 180, 41, .05) 159px 161px);
+}
+body.olimpiada .bara-sus { background: var(--grafit); border-bottom: 3px solid var(--chihlimbar); }
+body.olimpiada .bara-sus .sigla, body.olimpiada .bara-sus nav a { color: #e7e9ec; }
+body.olimpiada .bara-sus nav a:hover { background: #262b33; color: #fff; }
+body.olimpiada .bara-sus nav a[aria-current="page"] { background: var(--chihlimbar); color: var(--grafit); }
+body.olimpiada .sigla-cursor { border-color: var(--chihlimbar); color: var(--chihlimbar); }
+body.olimpiada .sigla-cursor::after { background: var(--chihlimbar); border-color: var(--grafit); }
+body.olimpiada .caseta-nume { background: #262b33; border-color: #3a414c; color: var(--chihlimbar); }
+body.olimpiada .sigla small { color: #9aa1ab; }
+body.olimpiada .puncte-sus { background: #262b33; color: var(--chihlimbar); }
+body.olimpiada .btn-icon { background: #262b33; border-color: #3a414c; color: #e7e9ec; }
+body.olimpiada .btn-primar { background: var(--grafit); border-color: var(--grafit); color: var(--chihlimbar); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body.olimpiada .btn-primar { background: var(--chihlimbar); border-color: var(--chihlimbar); color: var(--grafit); } }
+:root[data-theme="dark"] body.olimpiada .btn-primar { background: var(--chihlimbar); border-color: var(--chihlimbar); color: var(--grafit); }
+
+/* ---------- elemente comune ---------- */
+.ol-avertisment {
+  display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: 10px; border: 1.5px dashed var(--albastru);
+  background: var(--albastru-2); font-size: .95rem; margin: 16px 0;
+}
+.ol-avertisment b { white-space: nowrap; }
+.ol-cifre { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.ol-eticheta { font-family: var(--f-mono); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--albastru); }
+.ol-tag { display: inline-block; font-size: .78rem; padding: 2px 8px; border-radius: 99px; background: var(--suprafata-2); border: 1px solid var(--linie); color: var(--cerneala-2); margin: 0 4px 4px 0; }
+.ol-dificultate { display: inline-flex; gap: 3px; vertical-align: middle; }
+.ol-dificultate i { width: 16px; height: 6px; border-radius: 2px; background: var(--linie); }
+.ol-dificultate i.plin { background: var(--albastru); }
+
+/* ---------- pagina principală a modulului ---------- */
+.ol-erou { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 36px; align-items: center; padding: 20px 0 8px; }
+@media (max-width: 860px) { .ol-erou { grid-template-columns: 1fr; } }
+.ol-erou h1 { font-size: clamp(2rem, 4.6vw, 3.3rem); line-height: 1.04; margin: 8px 0 12px; letter-spacing: -.02em; }
+.ol-erou p { color: var(--cerneala-2); font-size: 1.1rem; max-width: 56ch; }
+.ol-cronometru-mare {
+  background: var(--grafit); color: var(--chihlimbar); border-radius: 14px; padding: 22px 24px; box-shadow: var(--umbra);
+  font-family: var(--f-mono); position: relative; overflow: hidden;
+}
+.ol-cronometru-mare .ecran { font-size: clamp(3rem, 8vw, 4.6rem); font-weight: 700; line-height: 1; letter-spacing: .02em; }
+.ol-cronometru-mare .sub { color: #9aa1ab; font-size: .85rem; margin-top: 8px; font-family: var(--f-text); }
+.ol-cronometru-mare .ture { display: flex; gap: 6px; margin-top: 14px; }
+.ol-cronometru-mare .ture span { flex: 1; height: 6px; border-radius: 3px; background: #2e343d; }
+.ol-cronometru-mare .ture span.facut { background: var(--chihlimbar); }
+.ol-grila { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 960px) { .ol-grila { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .ol-grila { grid-template-columns: 1fr; } }
+.ol-card {
+  display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--cerneala); background: var(--suprafata);
+  border: 1px solid var(--linie); border-radius: 12px; padding: 18px 18px 16px; box-shadow: var(--umbra); position: relative; transition: transform .12s, border-color .15s;
+  border-top: 5px solid var(--grafit);
+}
+.ol-card:hover { transform: translateY(-2px); border-color: var(--albastru); }
+.ol-card .nr { font-family: var(--f-mono); font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--albastru); }
+.ol-card h3 { margin: 0; font-size: 1.15rem; }
+.ol-card .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .85rem; color: var(--cerneala-2); align-items: center; }
+.ol-card .rezultat { margin-top: auto; font-size: .85rem; font-weight: 600; color: var(--verde); }
+.ol-card.special { background: var(--grafit); color: #e7e9ec; border-top-color: var(--chihlimbar); }
+.ol-card.special p { color: #aab0ba; margin: 0; }
+.ol-card.special .ol-eticheta { color: var(--chihlimbar); }
+
+/* ---------- pagina unui subiect ---------- */
+.ol-bara {
+  position: sticky; top: 57px; z-index: 30; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 10px 14px;
+  background: var(--grafit); color: #e7e9ec; border-radius: 12px; box-shadow: var(--umbra); margin: 12px 0 18px;
+}
+.ol-bara .ceas { font-family: var(--f-mono); font-size: 1.6rem; font-weight: 700; color: var(--chihlimbar); min-width: 5.2ch; font-variant-numeric: tabular-nums; }
+.ol-bara .ceas.expirat { color: #ff7a6e; }
+.ol-bara .scor { margin-left: auto; font-size: .9rem; color: #c9ced6; }
+.ol-bara .scor b { color: var(--chihlimbar); font-family: var(--f-mono); font-size: 1.05rem; }
+.ol-bara .btn { background: #262b33; border-color: #3a414c; color: #e7e9ec; }
+.ol-bara .btn:hover { border-color: var(--chihlimbar); }
+.ol-bara .btn-primar { background: var(--chihlimbar); color: var(--grafit); border-color: var(--chihlimbar); }
+.ol-lucru { display: grid; grid-template-columns: minmax(320px, 400px) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 1100px) { .ol-lucru { grid-template-columns: 1fr; } }
+.ol-cerinte { position: sticky; top: 130px; max-height: calc(100vh - 150px); overflow: auto; padding-right: 4px; }
+@media (max-width: 1100px) { .ol-cerinte { position: static; max-height: none; } }
+.ol-cerinta { background: var(--suprafata); border: 1px solid var(--linie); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+.ol-cerinta .cap { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.ol-cerinta .cap .n { font-family: var(--f-mono); font-weight: 700; color: var(--albastru); font-size: 1.05rem; }
+.ol-cerinta .cap .p { margin-left: auto; font-family: var(--f-mono); font-size: .82rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; background: var(--albastru-2); color: var(--albastru); }
+.ol-cerinta.ok { border-color: var(--verde); box-shadow: inset 4px 0 0 var(--verde); }
+.ol-cerinta.gresit { box-shadow: inset 4px 0 0 var(--rosu); }
+.ol-cerinta .text { font-size: .95rem; }
+.ol-cerinta .rez { font-size: .88rem; margin-top: 6px; }
+.ol-cerinta .rez.ok { color: var(--verde); font-weight: 600; }
+.ol-cerinta .rez.gresit { color: var(--rosu); }
+.ol-cerinta .solutie { margin-top: 8px; }
+.ol-cerinta .solutie ol { margin: 4px 0 0; padding-left: 20px; font-size: .92rem; }
+
+/* ---------- sprint ---------- */
+.sp-panou { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+@media (max-width: 900px) { .sp-panou { grid-template-columns: 1fr; } }
+.sp-sarcina { font-size: 1.15rem; margin: 6px 0 12px; }
+.sp-niveluri { display: flex; gap: 8px; flex-wrap: wrap; }
+.sp-niveluri label { display: flex; gap: 6px; align-items: center; padding: 8px 14px; border: 1px solid var(--linie); border-radius: 99px; cursor: pointer; background: var(--suprafata); font-weight: 600; }
+.sp-niveluri input { accent-color: var(--albastru); }
+.sp-clasament { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.sp-clasament th, .sp-clasament td { padding: 6px 8px; border-bottom: 1px solid var(--linie); text-align: left; }
+.sp-clasament td.num, .sp-clasament th.num { text-align: right; font-family: var(--f-mono); }
+.sp-clasament tr.eu td { background: var(--albastru-2); font-weight: 700; }
+.sp-plus { font-family: var(--f-mono); font-weight: 700; color: var(--verde); }
+
+/* ---------- trucuri ---------- */
+.tr-sectiune { margin-bottom: 36px; }
+.tr-grila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .tr-grila { grid-template-columns: 1fr; } }
+.tr-greseala { border-left: 4px solid var(--rosu); }
+.tr-greseala h3::before { content: '−'; color: var(--rosu); font-family: var(--f-mono); margin-right: 8px; }

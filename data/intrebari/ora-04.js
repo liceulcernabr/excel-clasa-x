@@ -1,0 +1,33 @@
+/* data/intrebari/ora-04.js — Banca de întrebări pentru ORA 4 (formule și referințe) */
+window.INTREBARI = window.INTREBARI || {};
+window.INTREBARI[4] = [
+  { id: '4-01', tip: 'unic', enunt: 'Cu ce caracter începe orice formulă în Excel?', variante: ['=', '+', '#', '$'], corect: 0 },
+  { id: '4-02', tip: 'unic', enunt: 'Ce rezultat dă [[=2+3*4]]?', variante: ['14', '20', '24', '9'], corect: 0 },
+  { id: '4-03', tip: 'unic', enunt: 'Ce rezultat dă [[=(2+3)*4]]?', variante: ['20', '14', '24', '9'], corect: 0 },
+  { id: '4-04', tip: 'completare', enunt: 'Rezultatul formulei [[=2^3+1]] este ___ .', raspunsuri: ['9'] },
+  { id: '4-05', tip: 'unic', enunt: 'Formula [[=B2*C2]] din D2 este copiată în D5. Cum arată în D5?',
+    variante: ['=B5*C5', '=B2*C2', '=B5*C2', '=E5*F5'], corect: 0 },
+  { id: '4-06', tip: 'unic', enunt: 'Formula [[=A2*$F$1]] din B2 este copiată în B6. Cum arată în B6?',
+    variante: ['=A6*$F$1', '=A6*$F$5', '=A2*$F$1', '=A6*F5'], corect: 0 },
+  { id: '4-07', tip: 'unic', enunt: 'Formula [[=$A2*B$1]] din B2 este copiată în D5. Cum arată în D5?',
+    variante: ['=$A5*D$1', '=$A2*D$1', '=$A5*B$1', '=A5*D1'], corect: 0, explicatie: 'Coloana A și rândul 1 sunt fixe; restul se deplasează.' },
+  { id: '4-08', tip: 'unic', enunt: 'Ce tastă schimbă tipul referinței (A1 → $A$1 → A$1 → $A1) în timpul editării?',
+    variante: ['F4', 'F2', 'F9', 'Ctrl+4'], corect: 0 },
+  { id: '4-09', tip: 'adevarat', enunt: 'În referința <code>$C7</code> coloana C rămâne fixă la copiere, iar rândul se modifică.', corect: true },
+  { id: '4-10', tip: 'asociere', enunt: 'Asociază referința cu tipul ei.',
+    perechi: [['D4', 'relativă'], ['$D$4', 'absolută'], ['$D4', 'mixtă (coloană fixă)'], ['D$4', 'mixtă (rând fix)']] },
+  { id: '4-11', tip: 'unic', enunt: 'Ce afișează [[="Nota: "&9]]?', variante: ['Nota: 9', '#VALUE!', 'Nota: &9', '9'], corect: 0 },
+  { id: '4-12', tip: 'unic', enunt: 'Ce eroare dă [[=10/0]]?', variante: ['#DIV/0!', '#VALUE!', '#NUM!', '#REF!'], corect: 0 },
+  { id: '4-13', tip: 'unic', enunt: 'A1 conține textul „zece”. Ce dă [[=A1+5]]?', variante: ['#VALUE!', '15', '#NAME?', '5'], corect: 0 },
+  { id: '4-14', tip: 'multiplu', enunt: 'Care formule dau rezultatul <b>10</b>?',
+    variante: ['=2*5', '=20/2', '=5+5*1', '=(1+1)^3'], corect: [0, 1, 2], explicatie: '(1+1)^3 = 8.' },
+  { id: '4-15', tip: 'adevarat', enunt: 'Dacă modifici o valoare folosită într-o formulă, rezultatul formulei se actualizează automat.', corect: true },
+  { id: '4-16', tip: 'formula', enunt: 'În <b>D2</b> calculează valoarea cu TVA: preț (B2) × cantitate (C2) × (1 + cota TVA din <b>F1</b>). Formula trebuie să poată fi copiată în jos.',
+    foi: [{ name: 'Coș', rows: 4, cols: 6, data: [['Produs', 'Preț', 'Cant.', 'Cu TVA', 'TVA', '19%'], ['Caiet', 5, 10], ['Pix', 2.5, 4]], bold: 'A1:D1' }],
+    tinta: 'D2:D3', solutie: '=B2*C2*(1+$F$1)', inaltime: 150, explicatie: '[[=B2*C2*(1+$F$1)]] — cota este fixă ($F$1).' },
+  { id: '4-17', tip: 'completare', enunt: 'Rezultatul formulei [[=-3^2]] în Excel este ___ .', raspunsuri: ['9'], explicatie: 'Negația se face înaintea puterii: (−3)² = 9.' },
+  { id: '4-18', tip: 'unic', enunt: 'Ce operator lipește două texte?', variante: ['&', '+', ':', '%'], corect: 0 },
+  { id: '4-19', tip: 'formula', enunt: 'În <b>C2</b> scrie formula care calculează 15% din prețul din B2 (reducerea).',
+    foi: [{ name: 'Reduceri', rows: 3, cols: 4, data: [['Produs', 'Preț', 'Reducere'], ['Rucsac', 180]], bold: 'A1:C1' }],
+    tinta: 'C2', solutie: '=B2*15%', robust: true, inaltime: 130 }
+];

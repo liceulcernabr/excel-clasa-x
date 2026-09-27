@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Funcții Excel · clasa a X-a</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='6' width='24' height='18' fill='none' stroke='%232344a8' stroke-width='3'/%3E%3Crect x='23' y='20' width='7' height='7' fill='%232344a8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <main class="pagina" id="continut">
+    <span class="eticheta">Dicționar</span>
+    <h1 style="margin-top:6px">Funcțiile din curs</h1>
+    <p style="color:var(--cerneala-2);max-width:70ch">În Excel funcțiile se scriu <b>în engleză</b>, chiar dacă meniurile sunt în română. Traducerea din a doua coloană te ajută doar să înțelegi ce face funcția: scrii <code>=SUM(A1:A5)</code>, nu „SUMĂ”.</p>
+    <div class="rand-butoane" style="margin:16px 0">
+      <input type="text" id="cauta" placeholder="Caută: sumă, VLOOKUP, dată…" aria-label="Caută o funcție" style="min-width:260px">
+      <select id="cat" aria-label="Categorie"><option value="">Toate categoriile</option></select>
+    </div>
+    <div class="card tabel-scroll" style="padding:0"><table class="tabel" style="margin:0" id="tabel"></table></div>
+  </main>
+  <script src="config.js"></script>
+  <script src="data/functii.js"></script>
+  <script src="assets/js/formula-engine.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/progress.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      App.init({ activ: 'functii', casetaNume: 'Funcții' });
+      const { el } = App;
+      const t = document.getElementById('tabel'), cauta = document.getElementById('cauta'), cat = document.getElementById('cat');
+      [...new Set(FUNCTII.map((f) => f.cat))].forEach((c) => cat.append(el('option', { value: c }, c)));
+      const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+      function randeaza() {
+        const q = norm(cauta.value.trim());
+        t.replaceChildren(el('tr', null, el('th', null, 'Excel (EN)'), el('th', null, 'Ce înseamnă'), el('th', null, 'Sintaxă'), el('th', null, 'Ce face'), el('th', null, 'Ora')));
+        FUNCTII.filter((f) => (!cat.value || f.cat === cat.value) && (!q || norm(f.en + ' ' + f.traducere + ' ' + f.descriere).includes(q)))
+          .sort((a, b) => a.ora - b.ora || a.en.localeCompare(b.en))
+          .forEach((f) => t.append(el('tr', null, el('td', null, el('b', { class: 'mono' }, f.en)), el('td', null, f.traducere), el('td', null, el('code', null, f.sintaxa)), el('td', null, f.descriere),
+            el('td', null, el('a', { href: 'lectii/ora-' + String(f.ora).padStart(2, '0') + '.html' }, String(f.ora))))));
+      }
+      cauta.addEventListener('input', randeaza);
+      cat.addEventListener('change', randeaza);
+      randeaza();
+    })();
+  </script>
+</body>
+</html>
