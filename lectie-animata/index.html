@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Excel animat – Clasa a X-a | TIC</title>
+<meta name="description" content="De la celule la formule și diagrame: Excel explicat cu animație la scroll. TIC, clasa a X-a, Liceul Teoretic „Panait Cerna” Brăila.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.xl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;background:var(--card);border-radius:12px;overflow:hidden}
+.xl th,.xl td{border:1px solid var(--line);padding:8px 10px;text-align:center;font-size:.95rem}
+.xl th{background:#0f2a1a;color:var(--muted);font-weight:600}
+.xl td.f{color:var(--accent);font-family:ui-monospace,Consolas,monospace;font-size:.88rem}
+.xl td.hl{outline:3px solid var(--accent);outline-offset:-3px}
+.xl td.err{color:#ff8fa3}
+.demo{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.demo .btns{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+.demo button{font:inherit;font-weight:600;cursor:pointer;border-radius:99px;padding:8px 18px;border:1px solid var(--line);background:#0a0f22;color:var(--ink)}
+.demo button[aria-pressed="true"]{background:var(--accent);color:#081018;border-color:var(--accent)}
+.demo button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.demo .why{margin-top:14px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+</style>
+</head>
+<body data-theme="date">
+<div class="progress"></div>
+<header class="topbar"><a href="../">← Înapoi la lecții</a><span class="tag">Clasa a X-a · Excel</span></header>
+
+<section class="hero" aria-label="Animație: tabelul se completează, se calculează și devine diagramă">
+  <div class="hero-stage">
+    <canvas aria-hidden="true"></canvas>
+    <div class="hero-shade"></div>
+    <div class="hero-title">
+      <span class="kicker">TIC · Clasa a X-a</span>
+      <h1>Din celule, în diagrame</h1>
+      <p>Derulează și urmărește cum lucrează Excel</p>
+    </div>
+    <div class="labels" data-for="canvas">
+      <div class="label" data-at=".04,.25"><span class="num">1/4</span><b>Celula</b><span>Intersecția unei coloane (literă) cu un rând (număr). Fiecare are o adresă: <code>B3</code>, <code>F2</code>.</span></div>
+      <div class="label" data-at=".25,.48"><span class="num">2/4</span><b>Datele</b><span>Introduci numere, text sau date calendaristice. Seriile (Ian, Feb, Mar…) se completează automat prin tragere.</span></div>
+      <div class="label" data-at=".48,.75"><span class="num">3/4</span><b>Formula</b><span><code>=AVERAGE(A2:F2)</code> face media rândului 2. Dacă schimbi o valoare, rezultatul se recalculează singur.</span></div>
+      <div class="label" data-at=".75,1.01"><span class="num">4/4</span><b>Diagrama</b><span>Același tabel, ca imagine: coloanele grupate compară două serii lună de lună.</span></div>
+    </div>
+    <div class="scroll-hint">DERULEAZĂ ↓</div>
+  </div>
+</section>
+
+<main>
+  <section class="block">
+    <h2 class="reveal">Vocabularul Excel</h2>
+    <p class="lead reveal">Un fișier Excel este un <b>registru</b>. Registrul are <b>foi de calcul</b>, iar foile sunt împărțite în <b>celule</b>.</p>
+    <div class="grid">
+      <div class="card reveal"><div class="ico">📗</div><h3>Registru (.xlsx)</h3><p>Fișierul întreg. Poate avea mai multe foi, cu file jos: <i>Foaie1</i>, <i>Note</i>, <i>Grafic</i>.</p></div>
+      <div class="card reveal"><div class="ico">🔲</div><h3>Celulă și adresă</h3><p>Coloana + rândul: <code>C5</code>. Celula selectată are chenar verde, iar adresa ei apare în <b>caseta Nume</b>.</p></div>
+      <div class="card reveal"><div class="ico">▦</div><h3>Zonă</h3><p>Un dreptunghi de celule, scris cu două puncte: <code>A2:F2</code> (un rând), <code>B2:B30</code> (o coloană).</p></div>
+      <div class="card reveal"><div class="ico">ƒx</div><h3>Bara de formule</h3><p>Arată ce conține de fapt celula. În celulă vezi rezultatul, în bară vezi formula.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="reveal">Cum scrii o formulă</h2>
+    <ol class="steps reveal">
+      <li><b>Începi cu semnul =</b><span>Fără egal, Excel tratează ce scrii ca text: <code>A1+B1</code> rămâne text, <code>=A1+B1</code> se calculează.</span></li>
+      <li><b>Folosești adrese, nu numere copiate</b><span><code>=B2*C2</code>, nu <code>=4*25</code>. Așa formula se actualizează când se schimbă datele.</span></li>
+      <li><b>Respecți ordinea operațiilor</b><span>Întâi parantezele, apoi <code>^</code>, apoi <code>*</code> și <code>/</code>, apoi <code>+</code> și <code>−</code>. <code>=2+3*4</code> dă 14, <code>=(2+3)*4</code> dă 20.</span></li>
+      <li><b>Apeși Enter și verifici</b><span>Dacă apare <code>#DIV/0!</code>, <code>#NAME?</code> sau <code>#REF!</code>, citește eroarea: îți spune ce s-a stricat.</span></li>
+    </ol>
+  </section>
+
+  <section class="block">
+    <h2 class="reveal">Funcțiile de bază</h2>
+    <div class="tablewrap reveal">
+      <table class="xl">
+        <tr><th>Funcția</th><th>Ce face</th><th>Exemplu</th></tr>
+        <tr><td class="f">SUM</td><td>adună</td><td class="f">=SUM(B2:B10)</td></tr>
+        <tr><td class="f">AVERAGE</td><td>face media</td><td class="f">=AVERAGE(B2:B10)</td></tr>
+        <tr><td class="f">MIN / MAX</td><td>cea mai mică / cea mai mare valoare</td><td class="f">=MAX(B2:B10)</td></tr>
+        <tr><td class="f">COUNT</td><td>numără celulele cu numere</td><td class="f">=COUNT(B2:B10)</td></tr>
+        <tr><td class="f">COUNTA</td><td>numără celulele care nu sunt goale</td><td class="f">=COUNTA(A2:A10)</td></tr>
+        <tr><td class="f">ROUND</td><td>rotunjește la un număr de zecimale</td><td class="f">=ROUND(E2,2)</td></tr>
+        <tr><td class="f">IF</td><td>alege între două rezultate</td><td class="f">=IF(E2&gt;=5,"promovat","corigent")</td></tr>
+      </table>
+    </div>
+    <div class="callout reveal"><b>De reținut:</b> în versiunea în română a Excelului, funcțiile au alte nume (SUM = SUMĂ, AVERAGE = MEDIE) și argumentele se despart prin <code>;</code>. Pe site folosim numele în engleză, ca la olimpiadă.</div>
+  </section>
+
+  <section class="block">
+    <h2 class="reveal">Referințe relative și absolute</h2>
+    <p class="lead reveal">Când tragi o formulă în jos, adresele se mută odată cu ea. Semnul <code>$</code> blochează o adresă. Alege varianta și vezi ce se întâmplă la copiere.</p>
+    <div class="demo reveal">
+      <div class="btns" role="group" aria-label="Tipul de referință">
+        <button type="button" data-m="rel" aria-pressed="true">=B2*C2*F1 (relativ)</button>
+        <button type="button" data-m="abs" aria-pressed="false">=B2*C2*$F$1 (absolut)</button>
+      </div>
+      <div class="tablewrap">
+        <table class="xl" id="ref">
+          <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+          <tr><th>1</th><td>Produs</td><td>Preț</td><td>Cant.</td><td>Total cu TVA</td><td></td><td class="hl">1,19</td></tr>
+          <tr><th>2</th><td>Caiet</td><td>5</td><td>4</td><td class="f"></td><td></td><td></td></tr>
+          <tr><th>3</th><td>Pix</td><td>3</td><td>10</td><td class="f"></td><td></td><td></td></tr>
+          <tr><th>4</th><td>Riglă</td><td>4</td><td>2</td><td class="f"></td><td></td><td></td></tr>
+        </table>
+      </div>
+      <p class="why" id="refwhy" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="reveal">Ce diagramă aleg?</h2>
+    <div class="grid">
+      <div class="card reveal"><div class="ico">📊</div><h3>Coloane</h3><p>Compari valori între categorii: notele pe discipline, vânzările pe luni.</p></div>
+      <div class="card reveal"><div class="ico">📈</div><h3>Linie</h3><p>Arăți o evoluție în timp: temperatura pe zile, numărul de vizitatori pe săptămâni.</p></div>
+      <div class="card reveal"><div class="ico">🥧</div><h3>Radială (Pie)</h3><p>Părțile unui întreg, puține categorii: cum îți împarți timpul într-o zi.</p></div>
+      <div class="card reveal"><div class="ico">⚬</div><h3>Prin puncte (XY)</h3><p>Legătura dintre două mărimi: ore de studiu și nota obținută.</p></div>
+    </div>
+    <div class="callout reveal"><b>O diagramă bună</b> are titlu, axe denumite cu unitatea de măsură și legendă doar când are mai multe serii.</div>
+  </section>
+
+  <section class="block">
+    <h2 class="reveal">Verifică-te</h2>
+    <details class="q reveal"><summary>Câte celule are zona B2:D5?</summary><p>3 coloane (B, C, D) × 4 rânduri (2–5) = 12 celule.</p></details>
+    <details class="q reveal"><summary>Ce rezultat dă =10-2*3?</summary><p>4. Înmulțirea se face înaintea scăderii: 2*3 = 6, apoi 10 − 6 = 4.</p></details>
+    <details class="q reveal"><summary>Ce înseamnă eroarea #DIV/0!?</summary><p>Formula împarte la zero sau la o celulă goală. Verifică numitorul.</p></details>
+    <details class="q reveal"><summary>Copiezi =A1*$B$1 din C1 în C2. Ce formulă apare în C2?</summary><p>=A2*$B$1. Referința relativă A1 se mută un rând mai jos; $B$1 rămâne blocată.</p></details>
+  </section>
+</main>
+<footer>Liceul Teoretic „Panait Cerna” Brăila · TIC · prof. Aura Ion</footer>
+<script src="assets/scenes.js"></script>
+<script src="assets/main.js"></script>
+<script>
+// Demonstrația cu referințe relative și absolute
+(function(){
+  const rows=[...document.querySelectorAll('#ref tr')].slice(2);
+  const F={1:1.19}; // F2:F4 sunt goale
+  const btns=[...document.querySelectorAll('.demo button')];
+  const why=document.getElementById('refwhy');
+  function show(m){
+    btns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+    rows.forEach((tr,i)=>{
+      const r=i+2, cell=tr.cells[4], b=+tr.cells[2].textContent, c=+tr.cells[3].textContent;
+      const dRow=m==='abs'?1:r-1, val=b*c*(F[dRow]||0);
+      cell.innerHTML=`=B${r}*C${r}*${m==='abs'?'$F$1':'F'+dRow}<br><b>${val.toFixed(2).replace('.',',')}</b>`;
+      cell.classList.toggle('err',!F[dRow]);
+    });
+    why.textContent=m==='abs'
+      ?'Cu $F$1, toate rândurile înmulțesc cu cota de TVA din F1. Rezultatele sunt corecte.'
+      :'Fără $, la copiere F1 devine F2, apoi F3. Celulele acelea sunt goale, deci rezultatul devine 0 de la rândul 3 în jos.';
+  }
+  btns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.m)));
+  show('rel');
+})();
+</script>
+</body>
+</html>
