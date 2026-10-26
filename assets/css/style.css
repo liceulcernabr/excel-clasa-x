@@ -152,6 +152,43 @@ img, svg { max-width: 100%; }
 }
 @media (max-width: 520px) { .sigla small { display: none; } .puncte-sus { display: none; } }
 
+/* ---------- Meniul lateral (cuprinsul orelor) ---------- */
+.bara-sus .interior { max-width: 1440px; }
+.cadru { display: grid; grid-template-columns: 272px minmax(0, 1fr); max-width: 1440px; margin: 0 auto; }
+.cadru-continut { min-width: 0; }
+.lateral {
+  position: sticky; top: var(--h-bara, 53px); height: calc(100vh - var(--h-bara, 53px)); overflow-y: auto;
+  background: var(--suprafata); border-right: 1px solid var(--linie); padding: 14px 12px 30px; font-family: var(--f-text);
+}
+.lat-mobil { display: none; }
+.lat-grup { font-family: var(--f-mono); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cerneala-3); padding: 14px 10px 6px; line-height: 1.4; }
+.lat-lk {
+  display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 8px;
+  text-decoration: none; color: var(--cerneala); font-size: .93rem; line-height: 1.25;
+}
+.lat-lk:hover { background: var(--suprafata-2); }
+.lat-lk.activ { background: var(--albastru-2); color: var(--albastru); font-weight: 600; }
+.lat-nr { font-family: var(--f-mono); font-size: .74rem; color: var(--cerneala-3); text-align: center; border: 1px solid var(--linie); border-radius: 4px; padding: 2px 0; background: var(--hartie); }
+.lat-lk.activ .lat-nr { border-color: var(--albastru); color: var(--albastru); }
+.lat-cerc { width: 16px; height: 16px; display: grid; place-items: center; }
+.lat-cerc svg { width: 16px; height: 16px; }
+.lat-cerc.gata { border-radius: 50%; background: var(--verde); color: #fff; font-size: .65rem; font-weight: 700; }
+.lat-unelte { margin-top: 12px; border-top: 1px solid var(--linie); padding-top: 8px; }
+@media (max-width: 980px) {
+  .cadru { grid-template-columns: minmax(0, 1fr); }
+  .lateral { position: fixed; z-index: 45; left: 0; bottom: 0; top: var(--h-bara, 53px); height: auto; width: min(320px, 88vw);
+    transform: translateX(-102%); transition: transform .22s ease; box-shadow: var(--umbra); }
+  .lateral.deschis { transform: none; }
+  .lat-fundal { position: fixed; inset: 0; background: rgba(10, 14, 24, .4); z-index: 40; }
+  .lat-mobil { display: grid; gap: 2px; padding-bottom: 8px; border-bottom: 1px solid var(--linie); }
+  .lat-mobil a { text-decoration: none; color: var(--cerneala-2); padding: 7px 10px; border-radius: 6px; font-weight: 600; }
+  .lat-mobil a[aria-current="page"] { color: var(--albastru); background: var(--albastru-2); }
+  .meniu-mobil { display: inline-grid; margin-left: auto; }
+  .bara-sus nav { display: none !important; }
+  .caseta-nume { display: none; }
+}
+@media print { .lateral, .lat-fundal { display: none !important; } .cadru { display: block; } }
+
 /* bandă roșie când modul profesor e activ */
 body.mod-profesor .bara-sus { border-bottom: 3px solid var(--rosu); }
 .eticheta-profesor {

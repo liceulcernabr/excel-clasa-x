@@ -9,7 +9,7 @@
   const pad = (n) => String(n).padStart(2, '0');
 
   function porneste(nr) {
-    global.App.init({ activ: 'acasa', casetaNume: 'Ora ' + pad(nr) });
+    global.App.init({ activ: 'acasa', casetaNume: 'Ora ' + pad(nr), ora: nr });
     const L = (global.DATE_LECTII || {})[nr];
     const main = document.getElementById('continut');
     const info = (global.CUPRINS || []).find((x) => x.nr === nr) || {};

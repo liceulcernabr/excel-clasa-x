@@ -212,8 +212,9 @@
     const btnLimba = el('button', { class: 'btn-icon comut-limba', id: 'btn-limba', type: 'button', 'aria-label': 'Separatorul din formule',
       onclick: () => { separator = separator === ',' ? ';' : ','; stocare.set('excel-x-separator', separator); aplicaLimba();
         toast(separator === ';' ? 'Formulele se afișează cu „;”: =ROUND(A1;2) — ca în Excel cu setări regionale românești.' : 'Formulele se afișează cu „,”: =ROUND(A1,2) — ca în Excel cu setări englezești.'); } }, 'a,b');
-    const btnMeniu = el('button', { class: 'btn-icon meniu-mobil', type: 'button', 'aria-label': 'Meniu', 'aria-expanded': 'false', 'aria-controls': 'nav-principal',
-      onclick: (e) => { const d = nav.classList.toggle('deschis'); e.currentTarget.setAttribute('aria-expanded', d); } }, '☰');
+    // pe telefon, butonul ☰ deschide meniul lateral (care conține și legăturile de sus)
+    const btnMeniu = el('button', { class: 'btn-icon meniu-mobil', id: 'btn-meniu', type: 'button', 'aria-label': 'Meniu', 'aria-expanded': 'false', 'aria-controls': 'lateral',
+      onclick: () => comutaLateral() }, '☰');
     const bara = el('header', { class: 'bara-sus' },
       el('div', { class: 'interior' }, sigla,
         opt.casetaNume ? el('span', { class: 'caseta-nume', title: 'Unde te afli' }, opt.casetaNume) : null,
@@ -221,6 +222,70 @@
         btnMeniu, nav, el('div', { class: 'unelte' }, puncte, btnLimba, btnTema)));
     document.body.prepend(bara);
   }
+  /* ---------- Meniul lateral (cuprinsul orelor, ca la Atelier Access) ----------
+     Pagina se așază în două coloane: meniul în stânga, conținutul în dreapta.
+     Pe ecrane înguste meniul devine sertar, deschis din butonul ☰. */
+  const GRUPURI = [
+    { ore: [1, 5], titlu: 'Date, formule, funcții de bază', evaluare: 1 },
+    { ore: [6, 10], titlu: 'Funcții, căutare, sortare', evaluare: 2 },
+    { ore: [11, 15], titlu: 'Analiză și prezentare', evaluare: 3 }
+  ];
+  function comutaLateral(deschide) {
+    const lat = $('#lateral'); if (!lat) return;
+    const d = deschide == null ? !lat.classList.contains('deschis') : deschide;
+    lat.classList.toggle('deschis', d);
+    const b = $('#btn-meniu'); if (b) b.setAttribute('aria-expanded', d);
+    let s = $('.lat-fundal');
+    if (d && !s) { s = el('div', { class: 'lat-fundal', onclick: () => comutaLateral(false) }); document.body.append(s); }
+    if (!d && s) s.remove();
+  }
+  function cerc(p, gata) {
+    if (gata) return el('span', { class: 'lat-cerc gata', 'aria-label': 'finalizată' }, '✓');
+    const c = 2 * Math.PI * 6.5;
+    return el('span', { class: 'lat-cerc', html: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="var(--linie)" stroke-width="2"/>' +
+      (p ? '<circle cx="8" cy="8" r="6.5" fill="none" stroke="var(--verde)" stroke-width="2" stroke-dasharray="' + (c * p / 100).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 8 8)"/>' : '') + '</svg>' });
+  }
+  function lateral(opt) {
+    const R = RADACINA, P = global.Progres;
+    const pad = (n) => String(n).padStart(2, '0');
+    const lat = el('aside', { class: 'lateral', id: 'lateral', 'aria-label': 'Cuprins' });
+    // legăturile din bara de sus, repetate în sertar pe telefon
+    const sus = $('#nav-principal');
+    if (sus) lat.append(el('div', { class: 'lat-mobil' }, [...sus.children].map((a) => a.cloneNode(true))));
+    const legatura = (href, nr, text, extra, activ) => el('a', { class: 'lat-lk' + (activ ? ' activ' : ''), href: R + href, 'aria-current': activ ? 'page' : false },
+      el('span', { class: 'lat-nr' }, nr), el('span', null, text), extra || el('span'));
+    const deseneaza = () => {
+      const C = global.CUPRINS || [];
+      GRUPURI.forEach((g) => {
+        lat.append(el('div', { class: 'lat-grup' }, 'Orele ' + g.ore[0] + '–' + g.ore[1] + ' · ' + g.titlu));
+        C.filter((o) => o.nr >= g.ore[0] && o.nr <= g.ore[1]).forEach((o) => {
+          const p = P ? P.procentOra(o.nr) : 0;
+          lat.append(legatura('lectii/ora-' + pad(o.nr) + '.html', pad(o.nr), o.titlu, cerc(p, P && P.oraFinalizata(o.nr)), opt.ora === o.nr));
+        });
+        lat.append(legatura('teste/test.html?evaluare=' + g.evaluare, 'E' + g.evaluare, 'Evaluarea ' + g.evaluare, null, false));
+      });
+      lat.append(el('div', { class: 'lat-unelte' },
+        legatura('lectie-animata/', '▶', 'Lecție animată', null, false),
+        legatura('teste/index.html', '✓', 'Teste', null, opt.activ === 'teste'),
+        legatura('olimpiada/index.html', '★', 'Olimpiadă', null, opt.activ === 'olimpiada'),
+        legatura('functii.html', 'fx', 'Funcțiile din curs', null, opt.activ === 'functii')));
+    };
+    // paginile care nu au încărcat cuprinsul îl încarcă acum
+    if (global.CUPRINS) deseneaza(); else incarcaScript(R + 'data/cuprins.js').then(deseneaza).catch(() => {});
+    lat.addEventListener('click', (e) => { if (e.target.closest('a')) comutaLateral(false); });
+
+    // mută conținutul paginii (fără scripturi) în coloana din dreapta
+    const cadru = el('div', { class: 'cadru' }), dreapta = el('div', { class: 'cadru-continut' });
+    const bara = $('.bara-sus');
+    [...document.body.children].forEach((n) => { if (n !== bara && n.tagName !== 'SCRIPT') dreapta.append(n); });
+    cadru.append(lat, dreapta);
+    bara.after(cadru);
+    const inaltime = () => document.documentElement.style.setProperty('--h-bara', bara.offsetHeight + 'px');
+    inaltime();
+    global.addEventListener('resize', inaltime);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') comutaLateral(false); });
+  }
+
   function subsol() {
     document.body.append(el('footer', { class: 'subsol' },
       el('div', { class: 'interior' },
@@ -241,6 +306,7 @@
     fonturi();
     antet(opt);
     subsol();
+    lateral(opt);
     aplicaModProfesor();
     aplicaLimba();
     document.addEventListener('keydown', (e) => {
